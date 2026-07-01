@@ -1,0 +1,200 @@
+\documentclass[aspectratio=169, 10pt]{beamer}
+\usepackage{common/beamerthemeull}
+\usepackage{graphics}
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, fit, calc, backgrounds}
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+\usepackage{listings}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{cancel}
+\usepackage[outputdir=/tmp/]{dot2texi}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{array}
+
+
+\tikzset{ exterior size/.style args={#1x#2}{ outer sep=auto, minimum width={#1-\pgflinewidth}, minimum height={#2-\pgflinewidth} } }
+
+\title{Plantilla LaTeX para Presentaciones ULL}
+\subtitle{Universidad de La Laguna}
+
+\begin{document}
+\begin{frame}[plain]
+   \titlepage
+\end{frame}
+
+\begin{frame}[plain]
+   \frametitle{Índice}
+   {
+      \hypersetup{pdfborder={0 0 0}, pdfborderstyle={}}
+      \begin{columns}[t]
+         \begin{column}{.5\textwidth}
+            \scriptsize
+            \tableofcontents[sections={1-2}]
+         \end{column}
+         \begin{column}{.5\textwidth}
+            \scriptsize
+            \tableofcontents[sections={3-}]
+         \end{column}
+      \end{columns}
+   }
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción a la plantilla}
+   
+   Esta es una plantilla de ejemplo para crear presentaciones en LaTeX con el estilo visual de la \textbf{Universidad de La Laguna (ULL)}.
+   
+   \vspace{1em}
+   \begin{itemize}
+       \item Permite crear listas fácilmente.
+       \item Los colores principales están adaptados a la guía de estilo.
+       \item Usa la fuente Montserrat (asegúrate de compilar con \texttt{xelatex}).
+   \end{itemize}
+\end{frame}
+
+\section{Bloques y Estilos}
+
+\begin{frame}{Ejemplo de Bloques}
+   
+   \begin{block}{Bloque normal}
+       Este es un bloque con los colores principales de la plantilla.
+   \end{block}
+   
+   \begin{exampleblock}{Bloque de ejemplo (exampleblock)}
+       Ideal para mostrar ejemplos o casos prácticos.
+   \end{exampleblock}
+   
+   \begin{alertblock}{Bloque de alerta (alertblock)}
+       Para remarcar información importante o advertencias.
+   \end{alertblock}
+\end{frame}
+
+\section{Columnas e Imágenes}
+
+\begin{frame}{Dos columnas}
+   \twocols{
+   \vskip 1.5cm
+       Esta diapositiva utiliza el comando personalizado \texttt{\textbackslash{}twocols} para dividir el contenido en dos columnas equivalentes.
+       
+       \vspace{2em}
+       Es muy útil cuando quieres mostrar un texto explicativo junto a un gráfico o imagen.
+   }{
+      \begin{adjustbox}{max totalsize={0.55\textwidth}{!},center}
+         \includegraphics{common/ull_logo.pdf}
+      \end{adjustbox}
+   }
+\end{frame}
+
+\section{Diseño Auto-espaciado}
+
+\begin{frame}[s]
+   \frametitle{Diapositiva con Auto-espaciado [s]}
+   \vskip 0.5cm
+   Esta diapositiva utiliza la opción \texttt{[s]} al definir el frame para distribuir de forma automática y equitativa el espacio vertical sobrante.
+   
+   \begin{itemize}
+       \item Primer elemento de la lista.
+       \item Segundo elemento, con espaciado uniforme respecto al anterior.
+       \item Tercer elemento, ajustándose automáticamente al margen inferior.
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[s]
+   \frametitle{Columnas Auto-espaciadas}
+   Utilizando el comando \texttt{\textbackslash{}stretchytwocols} combinamos columnas donde el texto se estira verticalmente en un lado, y los elementos gráficos se centran en el otro.
+   \stretchytwocols{
+      \vskip 0.5cm
+       Esta columna izquierda se auto-espacia verticalmente gracias a \texttt{\textbackslash{}stretchycolumn}:
+       \begin{itemize}
+           \item Primer punto clave.
+           \item Segundo punto clave.
+           \item Tercer punto clave.
+       \end{itemize}
+   }{
+       \begin{figure}
+           \centering
+           \def\svgwidth{0.4\columnwidth}
+           \input{common/ull_logo.pdf_tex}
+           \caption{Logo centrado verticalmente}
+       \end{figure}
+   }
+\end{frame}
+
+\section{Algoritmos y Pseudocódigo}
+
+\begin{frame}[s]
+   \frametitle{Ejemplo de Algoritmo (Dijkstra)}
+   \begin{adjustbox}{max totalsize={!}{0.8\textheight},center}
+      \begin{algorithm}[H]
+         \caption{Algoritmo de Dijkstra}
+         \KwIn{Grafo \var{G}, nodo origen \var{u}}
+         \KwOut{Array de distancias mínimas \var{dist}$[\cdot]$}
+         \BlankLine
+         \tcc{Inicialización}
+         \var{visitados} $\leftarrow$ \{\var{u}\}\;
+         \var{dist}[\var{u}] $\leftarrow$ 0\;
+         \For{cada nodo \var{v} en \var{G} (excepto \var{u})}{
+            \If{\var{v} es vecino de \var{u}}{
+               \var{dist}[\var{v}] $\leftarrow$ coste(\var{u},\var{v})\;
+            }
+            \Else{
+               \var{dist}[\var{v}] $\leftarrow$ $\infty$\;
+            }
+         }
+         \BlankLine
+         \tcc{Bucle principal}
+         \While{queden nodos sin visitar}{
+            \var{w} $\leftarrow$ nodo no visitado con menor \var{dist}[\var{w}]\;
+            Añadir \var{w} a \var{visitados}\;
+            \For{cada vecino \var{v} de \var{w} no visitado}{
+               \var{dist}[\var{v}] $\leftarrow$ $\min$(\var{dist}[\var{v}], \var{dist}[\var{w}] + coste(\var{w},\var{v}))\;
+            }
+         }
+      \end{algorithm}
+   \end{adjustbox}
+\end{frame}
+
+\section{Estructuras de Contenido}
+
+\begin{frame}[s]{Listas y Sublistas}
+   Esta diapositiva muestra la indentación y el espaciado para diferentes niveles de listas con viñetas:
+   
+   \begin{itemize}
+      \item \textbf{Primer Nivel de Ítem:}
+         \begin{itemize}
+            \item \textbf{Sub-ítem A:} Descripción o detalle correspondiente al subnivel A.
+            \item \textbf{Sub-ítem B:} Descripción o detalle correspondiente al subnivel B.
+         \end{itemize}
+      \item \textbf{Segundo Nivel de Ítem:}
+         \begin{itemize}
+            \item \textbf{Sub-ítem C:} Otro detalle en segundo nivel.
+               \begin{itemize}
+                  \item Un tercer nivel de anidamiento si fuera necesario.
+               \end{itemize}
+         \end{itemize}
+   \end{itemize}
+\end{frame}
+
+\begin{frame}
+   \frametitle{Tablas Estilizadas}
+   Ejemplo de tabla que utiliza el estilo y la alternancia de colores definidos en la plantilla:
+   \vskip 0.5cm
+      \begin{adjustbox}{max totalsize={0.95\textwidth}{!},center}
+       \begin{tabular}{p{2.5cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}}
+          \textbf{Característica} & \textbf{Método A} & \textbf{Método B} & \textbf{Método C} \\
+          \hline
+          \textbf{Complejidad} & Baja y sencilla de configurar & Alta, requiere configuración adicional & Intermedia \\
+          \hline
+          \textbf{Rendimiento} & Adecuado para conjuntos pequeños & Óptimo para sistemas complejos & Escalable \\
+          \hline
+          \textbf{Flexibilidad} & Rígido ante cambios estructurales & Altamente dinámico y adaptable & Configurable \\
+          \hline
+       \end{tabular}
+    \end{adjustbox}
+\end{frame}
+
+\end{document}

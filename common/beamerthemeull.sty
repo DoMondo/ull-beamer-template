@@ -1,0 +1,390 @@
+%! TEX program = xelatex
+\mode<presentation>
+
+\RequirePackage{tikz}
+\IfFileExists{config.tex}{
+  \input{config.tex}
+}{
+  \newcommand{\authorname}{Tu Nombre Aquí}
+  \newcommand{\authoremail}{tu-email@ull.edu.es}
+  \newcommand{\templateversion}{1.0.0}
+}
+\usetheme{default}
+\usetikzlibrary{positioning, shapes}
+
+\definecolor{ull}{RGB}{87, 6, 140}
+\definecolor{ullsecondary}{RGB}{99, 74, 0}
+\setbeamercolor{structure}{fg=ull}
+\RequirePackage{fontspec}
+\usefonttheme{professionalfonts}
+\usefonttheme{serif}
+\usepackage{printlen}
+\RequirePackage{etoolbox}
+\RequirePackage{adjustbox}
+\RequirePackage{unicode-math}
+
+\makeatletter
+
+% Fonts
+\setmainfont{Montserrat}
+\setmonofont{Inconsolata}
+\setmathfont{Fira Math}
+
+% Márgenes globales de los slides
+\setbeamersize{text margin left=1.5em, text margin right=0.75em}
+\setlength{\leftmargini}{10pt}
+\setlength{\leftmarginii}{10pt}
+\setlength{\leftmarginiii}{10pt}
+
+% Espaciado entre ítems de lista
+\setbeamertemplate{itemize/enumerate body begin}{\vspace{0.125em}}
+\setbeamertemplate{itemize/enumerate body end}{\vspace{0.125em}}
+\setbeamertemplate{itemize/enumerate subbody begin}{\vspace{0.0em}}
+\setbeamertemplate{itemize/enumerate subbody end}{\vspace{0.125em}}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\vspace{0.0em}}
+\setbeamertemplate{itemize/enumerate subsubbody end}{\vspace{0.125em}}
+\addtolength{\itemsep}{5em}
+
+% Colors
+\setbeamercolor*{title page header}{fg=ull}
+\setbeamercolor*{author}{fg=white}
+\setbeamercolor*{date}{fg=white}
+\hypersetup{
+   colorlinks,
+   urlbordercolor=ull,
+   linkbordercolor=ull,
+   linkcolor=ull,
+   urlcolor=ull,
+   linkbordercolor=ull
+}
+\Hy@AtBeginDocument{%
+  \def\@pdfborder{0 0 1}% Overrides border definition set with colorlinks=true
+  \def\@pdfborderstyle{/S/U/W 1}% Overrides border style set with colorlinks=true
+                                % Hyperlink border style will be underline of width 1pt
+}
+%\setbeamercolor{enumerate item}{fg=ull}
+
+\setbeamertemplate{background}{
+   \begin{tikzpicture}
+      \fill[color=white] (0,2) rectangle (\the\paperwidth,\the\paperheight);
+      \fill[color=ull] (0,0) rectangle(\the\paperwidth,1.9);
+      \ifnum\thepage>1\relax%
+      \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+      \fi
+   \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{texsx}[1][] {
+   \vskip0.25cm
+   \begin{figure}
+      \centering
+      \def\svgwidth{0.2\columnwidth}
+      \input{common/ull_logo.pdf_tex}
+   \end{figure}
+   \vskip2cm
+   \begin{beamercolorbox}[center]{title page header}
+      \usebeamerfont{title}\inserttitle\par
+   \end{beamercolorbox}
+   \begin{beamercolorbox}[center]{subtitle page header}
+      \usebeamerfont{subtitle}\insertsubtitle\par
+   \end{beamercolorbox}
+   \vskip3cm
+   \begin{tikzpicture}[remember picture, overlay]
+      \node[above=0.5] at (current page.south) {
+         \begin{beamercolorbox}[center]{author}
+            \usebeamerfont{author}\authorname \\
+
+            \hypersetup{urlcolor=white}
+            \url{\authoremail}
+            \hypersetup{urlcolor=ull}
+         \end{beamercolorbox}
+      };
+   \end{tikzpicture}
+   \begin{tikzpicture}[remember picture, overlay]
+      \node[above=0.15] at (current page.south) {
+         \begin{beamercolorbox}[center]{author}
+            \tiny Versión: \tt \templateversion
+         \end{beamercolorbox}
+      };
+   \end{tikzpicture}
+   \vfill
+}
+
+% Automatic font size selection based on title length
+\newdimen\titlewidth
+\newcommand{\autosizeframetitle}[1]{%
+   \setbox0=\hbox{#1}%
+   \titlewidth=\wd0\relax
+   \ifdim\titlewidth<6cm\relax
+      \vspace{0.15cm}
+      \huge#1\strut%
+   \else\ifdim\titlewidth<8cm\relax
+      \vspace{0.15cm}
+      \huge#1\strut%
+   \else\ifdim\titlewidth<10cm\relax
+      \vspace{0.20cm}
+      \LARGE#1\strut%
+   \else\ifdim\titlewidth<14cm\relax
+      \vspace{0.25cm}
+      \Large#1\strut%
+   \else
+      \vspace{0.30cm}
+      \Large#1\strut%
+   \fi\fi\fi\fi
+} 
+
+\setbeamercolor{frametitle}{fg=white, bg=ull}
+
+% Frame title
+\defbeamertemplate*{frametitle}{texsx}[1][] {
+   \nointerlineskip
+   \begin{beamercolorbox}[wd=\paperwidth, ht=1.25cm, dp=0pt, sep=0pt]{frametitle}
+      \centering
+      \ifdefvoid{\insertframesubtitle}{%
+         \autosizeframetitle{\insertframetitle}
+      }{%
+         {\Large\insertframetitle\strut} \\
+         {\large\insertframesubtitle\strut}
+         \vspace{0.0cm}
+      }%
+   \end{beamercolorbox}
+}
+
+\setbeamercolor*{author in head/foot}{fg=white,bg=ull}
+\setbeamercolor*{title in head/foot}{fg=white,bg=ull}
+\setbeamercolor*{foot pagenumber}{fg=white,bg=ull}
+
+\setbeamercolor*{title in head/foot}{fg=white,bg=ull}
+
+% Table of contents
+\setbeamercolor{section in toc}{fg=ull}
+\setbeamercolor{subsection in toc}{fg=black}
+\setbeamercolor{subsubsection in toc}{fg=black}
+
+% Block colors
+\setbeamercolor{block title}{fg=white,bg=ull!75}
+\setbeamercolor{block body}{fg=black,bg=ull!5}
+
+\setbeamercolor{block title example}{fg=white,bg=ull}
+\setbeamercolor{block body example}{fg=black,bg=ull!10}
+
+\setbeamercolor{block title alerted}{fg=white,bg=red!75!black}
+\setbeamercolor{block body alerted}{fg=black,bg=red!10}
+
+% Font sizes for table of contents
+\setbeamerfont{section in toc}{size=\scriptsize}
+\setbeamerfont{subsection in toc}{size=\scriptsize}
+\setbeamerfont{subsubsection in toc}{size=\scriptsize}
+
+\setbeamertemplate{footline} {
+   \vskip0.25cm
+   \leavevmode%
+   \begin{beamercolorbox}[wd=.06\paperwidth,ht=3.25ex,dp=2ex,center]{title in head/foot}%
+      \adjustbox{valign=c}{\includegraphics[height=2ex,keepaspectratio]{common/icono-ull-blanco.png}}
+   \end{beamercolorbox}%
+   \begin{beamercolorbox}[wd=.82\paperwidth,ht=3.25ex,dp=2ex,center]{title in head/foot}%
+      \hypersetup{linkcolor=white}
+      \ifx\insertsubsection\@empty {
+         \usebeamerfont{title in head/foot}\thesection. \insertsection
+      } \else {
+         \ifx\insertsubsubsection\@empty{
+            \usebeamerfont{title in head/foot}\thesection\ \insertsection \quad > \quad \thesection.\thesubsection. \insertsubsection
+         } \else {
+            \usebeamerfont{title in head/foot}\thesection. \insertsection
+            \quad > \quad \thesection.\thesubsection\ \insertsubsection \quad
+            > \quad \insertsubsubsection 
+         }\fi
+      }
+      \fi
+      \hypersetup{linkcolor=ull}
+   \end{beamercolorbox}%
+   \begin{beamercolorbox}[wd=.12\paperwidth,ht=3.25ex,dp=2ex,center]{foot pagenumber}
+      \insertframenumber{} / \inserttotalframenumber
+   \end{beamercolorbox}%
+}
+
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
+\setbeamertemplate{subsubsection in toc}[subsubsections numbered]
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{itemize subitem}[circle]
+\setbeamertemplate{itemize subsubitem}[circle]
+
+% Stretchy lists (add [s] to the frame)
+\define@key{beamerframe}{s}[true]{% stretch
+  \beamer@frametopskip=0pt\relax%
+  \beamer@framebottomskip=0pt\relax%
+  \beamer@frametopskipautobreak=\beamer@frametopskip\relax%
+  \beamer@framebottomskipautobreak=\beamer@framebottomskip\relax%
+}
+\def\beamer@defaultospec{s}
+
+% Stretchy columns (use with [s] frames)
+% Content is vertically stretched (good for lists)
+% Usage: \begin{column}{width} \stretchycolumn{content} \end{column}
+\newcommand{\stretchycolumn}[1]{%
+  \begin{minipage}[t][0.8\textheight][s]{\linewidth}%
+    #1%
+  \end{minipage}%
+}
+
+% Centered column (use with [s] frames)
+% Content is vertically centered (good for figures)
+% Usage: \begin{column}{width} \centeredcolumn{content} \end{column}
+\newcommand{\centeredcolumn}[1]{%
+  \begin{minipage}[t][0.8\textheight][c]{\linewidth}%
+    #1%
+  \end{minipage}%
+}
+
+% Two-column stretchy environment (use with [s] frames)
+% Usage: \stretchytwocols{left content}{right content}
+% Left column stretches, right column centers (typical for text + figure)
+\newcommand{\stretchytwocols}[2]{%
+  \begin{columns}[onlytextwidth,T]%
+    \begin{column}{.5\textwidth}%
+      \stretchycolumn{#1}%
+    \end{column}%
+    \begin{column}{.5\textwidth}%
+      \centeredcolumn{#2}%
+    \end{column}%
+  \end{columns}%
+}
+
+\newcommand{\twocols}[2]{%
+  \begin{columns}[onlytextwidth,T]%
+    \begin{column}{.5\textwidth}%
+      #1
+    \end{column}%
+    \begin{column}{.5\textwidth}%
+      \centeredcolumn{#2}%
+    \end{column}%
+  \end{columns}%
+}
+
+% TABLES
+\usepackage{xcolor}
+\usepackage{colortbl}
+\renewcommand{\tablename}{Tabla}
+
+\rowcolors{2}{bg!90!ull}{bg}
+
+\renewcommand{\arraystretch}{1.5}
+\AtBeginEnvironment{tabular}{
+  \small
+  \setcounter{rownum}{1}
+}
+
+% Calculate total number of sections for automatic splitting
+\newcounter{totalsections}
+\AtEndDocument{%
+   \immediate\write\@auxout{\string\setcounter{totalsections}{\the\c@section}}%
+}
+
+\newcommand{\insertindex}{
+   {
+      \hypersetup{colorlinks=false,pdfborder={0 0 0}, pdfborderstyle={}}
+      \begin{frame}[plain]
+         \frametitle{Índice}
+         \ifnum\value{totalsections}>1\relax
+            \pgfmathtruncatemacro{\midsection}{(\value{totalsections}+1)/2}%
+            \pgfmathtruncatemacro{\secondhalf}{\midsection+1}%
+            {
+               \begin{columns}
+                  \begin{column}{.5\textwidth}
+                     \tableofcontents[currentsection, currentsubsection, sections={1-\midsection}]
+                  \end{column}
+                  \begin{column}{.5\textwidth}
+                     \tableofcontents[currentsection, currentsubsection, sections={\secondhalf-}]
+                  \end{column}
+               \end{columns}
+            }
+         \else
+            \tableofcontents[currentsection, currentsubsection]
+         \fi
+   \end{frame}
+   }
+}
+
+% Algorithm2e configuration
+\AtBeginDocument{
+  \@ifpackageloaded{algorithm2e}{
+    \definecolor{varcolor}{RGB}{23, 103, 122}
+    \newcommand{\codebf}[1]{\textcolor{ull}{\textbf{\texttt{#1}}}}
+    \newcommand{\mycommentsty}[1]{\textcolor{gray}{\textit{\texttt{#1}}}}
+    \newcommand{\var}[1]{\textcolor{varcolor}{\textit{\texttt{#1}}}}
+    \SetAlgorithmName{Pseudocódigo}{Lista de pseudocódigos}
+    \SetAlFnt{\ttfamily}
+    \SetKwSty{codebf}
+    \SetArgSty{texttt}
+    \SetFuncSty{textbf}
+    \SetDataSty{texttt}
+    \SetCommentSty{mycommentsty}
+    \SetNlSty{codebf}{}{:}
+    \SetAlCapSty{textbf}
+    \AtBeginEnvironment{algorithm}{\ttfamily}
+  }{}
+  % Listings configuration for C code
+  \@ifpackageloaded{listings}{
+     \definecolor{lightblue}{RGB}{0, 102, 187}
+     \definecolor{hardblue}{RGB}{0, 102, 187}
+     \lstdefinestyle{cstyle}{
+        language=C,
+        basicstyle=\ttfamily\scriptsize,
+        keywordstyle=\bfseries\color{ull},
+        commentstyle=\itshape\color{gray},
+        stringstyle=\color{varcolor},
+        numberstyle=\tiny\ttfamily,
+        identifierstyle=\color{black},
+        directivestyle=\color{gray},
+        morecomment=[l][\color{darkgray}]{\#}, % Include directives
+        numbers=left,
+        numbersep=8pt,
+        stepnumber=1,
+        frame=none,
+        showstringspaces=false,
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=3,
+        captionpos=b,
+        xleftmargin=1.5em,
+        framexleftmargin=0em,
+        escapeinside={(*@}{@*)},
+        morekeywords={},
+        emph={send, strlen, onImageSend},
+        emphstyle=\bfseries\color{lightblue},
+     }
+     \lstdefinestyle{pythonstyle}{
+        language=Python,
+        basicstyle=\ttfamily\scriptsize,
+        keywordstyle=\bfseries\color{ull},
+        commentstyle=\itshape\color{gray},
+        stringstyle=\color{varcolor},
+        numberstyle=\tiny\ttfamily,
+        identifierstyle=\color{black},
+        numbers=left,
+        numbersep=8pt,
+        stepnumber=1,
+        frame=none,
+        showstringspaces=false,
+        breaklines=true,
+        breakatwhitespace=true,
+        tabsize=4,
+        captionpos=b,
+        xleftmargin=1.5em,
+        framexleftmargin=0em,
+        escapeinside={(*@}{@*)},
+        morekeywords={as, with, yield, async, await},
+        emph={socket, connect, send, recv, close, bind, listen, accept},
+        emphstyle=\bfseries\color{lightblue},
+     }
+     \lstset{style=cstyle}
+  }{}
+}
+
+\makeatother
+\mode<all>

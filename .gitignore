@@ -1,0 +1,17 @@
+# Auxiliares de LaTeX
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.xdv
+
+# Archivos de copia de seguridad o sistema
+.DS_Store
+Thumbs.db
+*~
