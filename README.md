@@ -63,13 +63,8 @@ xelatex main.tex
 
 ## Uso en Overleaf
 
-La forma más rápida de usar esta plantilla es a través de Overleaf:
-
-1. Descarga el contenido de esta carpeta (o el repositorio entero) como un archivo `.zip`.
-2. Ve a [Overleaf](https://www.overleaf.com/) y crea un **Nuevo Proyecto -> Subir Proyecto**.
-3. Sube el archivo `.zip`.
-4. Ve al menú superior izquierdo (`Menú`), busca las opciones del compilador y asegúrate de que **Compiler** está configurado en **XeLaTeX**.
-5. ¡Listo! Ya puedes empezar a editar el archivo `main.tex`.
+Puedes abrir directamente la plantilla en Overleaf usando el siguiente enlace:
+👉 **[Plantilla en Overleaf](https://www.overleaf.com/read/trszznfdckdj#551349)** (una vez abierta, puedes [copiarla a tu cuenta](https://docs.overleaf.com/managing-projects-and-files/copying-a-project) para poder editarla).
 
 ## Estructura de archivos
 
